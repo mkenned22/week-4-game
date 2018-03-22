@@ -1,0 +1,64 @@
+body{
+    height: 100vh;
+    background-image: url("../images/star_wars_background.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+
+    overflow: hidden;
+
+    color: white;
+}
+
+.row{
+    display: flex;
+    height: 100vh;
+}
+
+.col-md-12{
+    text-align: center;
+}
+
+img {
+    margin-top: 10vh;
+    max-width:40vw;
+}
+#button1 {
+    margin-top: 10vh;
+   
+}
+
+#LukeSkyWalker, #Yoda, #ObiWanKenobi, #QuiGonJinn, #EmperorPalpatine, #DarthVader, #CountDooku, #DarthMaul {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    width: 200px;
+    height: 200px;
+}
+
+#LukeSkyWalker, #EmperorPalpatine{
+    background-image: url("../images/LukeSkywalker.png");
+    
+}
+
+#Yoda, #DarthVader{
+    background-image: url("../images/Yoda.png");
+}
+
+#ObiWanKenobi, #CountDooku{
+    background-image: url("../images/ObiWanKenobi.png");
+}
+
+#QuiGonJinn, #DarthMaul{
+    background-image: url("../images/QuiGonJinn.png");
+}
+
+#attack {
+    width: 100px;
+    height: 60px;
+   
+}
+
+
+
+
