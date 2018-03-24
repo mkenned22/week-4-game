@@ -17,6 +17,7 @@ body{
 
 .col-md-12{
     text-align: center;
+    margin: auto;
 }
 
 img {
@@ -32,33 +33,59 @@ img {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;
-    width: 200px;
-    height: 200px;
+    width: 225px;
+    height: 225px;
+    margin: 20px;
 }
 
-#LukeSkyWalker, #EmperorPalpatine{
+#LukeSkyWalker{
     background-image: url("../images/LukeSkywalker.png");
+}
+
+#EmperorPalpatine{
+    background-image: url("../images/EmperorPalpatine.png");
     
 }
 
-#Yoda, #DarthVader{
+#Yoda{
     background-image: url("../images/Yoda.png");
 }
 
-#ObiWanKenobi, #CountDooku{
+#DarthVader{
+    background-image: url("../images/DarthVader.png");
+}
+
+#ObiWanKenobi{
     background-image: url("../images/ObiWanKenobi.png");
 }
 
-#QuiGonJinn, #DarthMaul{
+#CountDooku{
+    background-image: url("../images/CountDooku.png");
+}
+
+#QuiGonJinn{
     background-image: url("../images/QuiGonJinn.png");
 }
 
-#attack {
-    width: 100px;
-    height: 60px;
-   
+#DarthMaul{
+    background-image: url("../images/DarthMaul.png");
 }
 
+.homeButtons{
+    width: 150px;
+}
+
+.jediButton:hover{
+    border: 4px solid chartreuse;
+
+}
+.sithButton:hover{
+    border: 4px solid red;
+}
+
+#vs{
+    font-size: 30px;
+}
 
 
 

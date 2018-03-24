@@ -2,20 +2,12 @@ $(document).ready(function() {
     var audio = new Audio("https://archive.org/download/StarWarsThemeSongByJohnWilliams/Star%20Wars%20Theme%20Song%20By%20John%20Williams.mp3");
     audio.play();
 
-    var sithLords = {
-        0 : { name: "Emperor Palpatine", img: "assets/images/LukeSkywalker.png", id: "LukeSkyWalker", HP: "150", AP: "7"},
-        1 : { name: "Darth Vader", img: "assets/images/Yoda.png", id: "Yoda", HP: "130", AP: "9"},
-        2 : { name: "Count Dooku", img: "assets/images/ObiWanKenobi.png", id: "ObiWanKenobi", HP: "110", AP: "10"},
-        3 : { name: "Darth Maul", img: "assets/images/QuiGonJinn.png", id: "QuiGonJinn", HP: "90", AP: "12"}
-    }
-    
-
     function chooseJedi(jediChoice){
         var jedis = {
-            "LukeSkyWalker" : { id:"LukeSkyWalker", name: "Luke Skywalker", hp: "150", ap: "7"},
-            "Yoda" : { id:"Yoda", name: "Yoda", hp: "130", ap: "9"},
-            "ObiWanKenobi" : { id:"ObiWanKenobi", name: "Obi-Wan Kenobi", hp: "110", ap: "10"},
-            "QuiGonJinn" : { id:"QuiGonJinn", name: "Qui-Gon Jinn", hp: "90", ap: "12"}
+            "LukeSkyWalker" : { id:"LukeSkyWalker", name: "Luke Skywalker", hp: "150", ap: "7", iap: "7"},
+            "Yoda" : { id:"Yoda", name: "Yoda", hp: "130", ap: "9", iap: "9"},
+            "ObiWanKenobi" : { id:"ObiWanKenobi", name: "Obi-Wan Kenobi", hp: "110", ap: "10", iap: "10"},
+            "QuiGonJinn" : { id:"QuiGonJinn", name: "Qui-Gon Jinn", hp: "90", ap: "12", iap: "12"}
         }
         var jedi = jedis[jediChoice];
         
@@ -45,10 +37,10 @@ $(document).ready(function() {
 
     function chooseEnemy(sithLordchoice,jedi){
         var sithLords = {
-            "EmperorPalpatine" : { id: "EmperorPalpatine", name: "Emperor Palpatine", hp: "150", ap: "7"},
-            "DarthVader" : { id: "DarthVader", name: "Darth Vader", hp: "130", ap: "9"},
-            "CountDooku" : { id: "CountDooku", name: "Count Dooku", hp: "110", ap: "10"},
-            "DarthMaul" : { id: "DarthMaul", name: "Darth Maul", hp: "90", ap: "12"}
+            "EmperorPalpatine" : { id: "EmperorPalpatine", name: "Emperor Palpatine", hp: "150", ap: "70", defeated: false},
+            "DarthVader" : { id: "DarthVader", name: "Darth Vader", hp: "130", ap: "9", defeated: false},
+            "CountDooku" : { id: "CountDooku", name: "Count Dooku", hp: "110", ap: "10", defeated: false},
+            "DarthMaul" : { id: "DarthMaul", name: "Darth Maul", hp: "90", ap: "12", defeated: false}
         }
 
         var sithLord = sithLords[sithLordchoice];
@@ -77,8 +69,24 @@ $(document).ready(function() {
     }
 
     function attack(sithLord,jedi){
-        sithLord.hp = sithLord.hp - jedi.ap
-        jedi.hp = jedi.hp - sithLord.ap
+        
+        sithLord.hp = parseInt(sithLord.hp) - parseInt(jedi.ap)
+        jedi.hp = parseInt(jedi.hp) - parseInt(sithLord.ap)
+        jedi.ap = parseInt(jedi.ap) + parseInt(jedi.iap)
+
+        $("#content").append($("<div>").append("jedi health: "+ jedi.hp));
+        $("#content").append($("<div>").append("jedi attack power: "+ jedi.ap));
+        $("#content").append($("<div>").append("sith lord health: "+ sithLord.hp));
+
+        if(jedi.hp < 1) {
+            alert("You Lose!")
+            $("#content").text("refresh to play again");
+        }
+
+        if(sithLord.hp < 1) {
+            alert("You Beat "+ sithLord.name + "!")
+            
+        }
     }
     
     $("#button1").on("click",function(){
