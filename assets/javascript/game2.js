@@ -5,14 +5,7 @@ $(document).ready(function() {
         $("#content").html('<p><img id="starWarsLogo" src="assets/images/StarWarsLogo.png"></p>');
         $("#content").append("<p><h1>Jedi's vs. Sith Lords</h1></p><br>");
 
-        var playButton = $("<button>");
-        playButton.text("Play");
-        playButton.addClass("btn btn-default btn-lg homeButtons");
-        playButton.attr("id","playButton");
-        playButton.on("click",function(){
-            chooseJedi()
-        });
-        $("#content").append(playButton);
+        createPlayButton();
 
         var instructionsButton = $("<button>");
         instructionsButton.text("Instructions");
@@ -25,6 +18,14 @@ $(document).ready(function() {
     }
     function goInstructions(){
         createPageLayout();
+        $("#content").html('<h1>Instructions</h1>');
+        $("#content").append("<p>Choose a Jedi by clicking on their picture. You will fight as that character for the remainder of the game.</p>");
+        $("#content").append('<p>Choose to fight each of the Sith Lords one at a time by selecting their pictures.</p>');
+        $("#content").append('<p>Attack the chosen opponent by selecting the attack button. Every time you attack your opponent, they will counter attack.</p>');
+        $("#content").append('<p>The goal is to defeat all of the Sith Lords before losing all of your health points.</p>');
+        $("#content").append('<p>No characters in the game can heal or recover health points.</p>');
+
+        createPlayButton();
     }
     function chooseJedi(){
         createPageLayout();
@@ -47,9 +48,12 @@ $(document).ready(function() {
         for(i=0;i<jedisArray.length;i++){
             var button = $("<button>");
             button.attr("id",jedisArray[i]);
+            button.text(jedis[jedisArray[i]].name);
             button.addClass("btn btn-default btn-lg jediButton");
             button.on("click",function(){
-                var jedi = this.id
+                var jedi = this.id;
+                $(".jediButton").attr("disabled",true);
+                $("#"+jedi).css("border","4px solid chartreuse");
                 $("#content").append("<div><h1>May the force be with you, "+jedis[jedi].name +".</h1></div>");
                 setTimeout(function(){chooseSithLord(jedis[jedi], sithLordArray)},3000);
             });
@@ -74,9 +78,12 @@ $(document).ready(function() {
         for(i=0;i<sithLordArray.length;i++){
             var button = $("<button>");
             button.attr("id",sithLordArray[i]);
+            button.text(sithLords[sithLordArray[i]].name);
             button.addClass("btn btn-default btn-lg sithButton");
             button.on("click",function(){
                 var sith = this.id;
+                $(".sithButton").attr("disabled",true);
+                $("#"+sith).css("border","4px solid red")
                 sithLordArray.splice($.inArray(sith, sithLordArray),1);
                 $("#content").append("<div><h1>You have chosen, "+sithLords[sith].name +".</h1></div>");
                 setTimeout(function(){goBattleRoyale(jedi, sithLords[sith], sithLordArray)},3000);
@@ -87,6 +94,7 @@ $(document).ready(function() {
     function goBattleRoyale(chosenJedi, sithLord, sithLordArray){
         createPageLayout();
         $("body").css({'background-image':'url(assets/images/battleRoyale.png)'});
+        $("#content").html("<div><h1>" +chosenJedi.name + " vs. " + sithLord.name + "</h1></div>");
 
         var button = $("<button>");
         button.attr("id",chosenJedi.id);
@@ -110,30 +118,44 @@ $(document).ready(function() {
         button.addClass("btn btn-default btn-lg");
         button.text("Attack")
         button.on("click",function(){
+            $("#attack").attr("disabled", true);
             attack(chosenJedi, sithLord, sithLordArray);
         });
         $("#content").append($("<div>").append(button));
     }
     function attack(chosenJedi, chosenSithLord, sithLordArray){
+        $()
+
+        var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src','assets/images/saber.mp3');
+        audioElement.play();
+
         chosenSithLord.hp = parseInt(chosenSithLord.hp) - parseInt(chosenJedi.ap)
         chosenJedi.hp = parseInt(chosenJedi.hp) - parseInt(chosenSithLord.ap)
         chosenJedi.ap = parseInt(chosenJedi.ap) + parseInt(chosenJedi.iap)
+
+        setTimeout(function(){alert("You have attacked " + chosenSithLord.name + ", reducing his health to " + chosenSithLord.hp + ". "+ chosenSithLord.name + " has counter attacked to reduce your health to " + chosenJedi.hp +".")},2000);
 
         $("#" + chosenJedi.id).text("Health Points:"+ chosenJedi.hp);
         $("#" + chosenSithLord.id).text("Health Points:"+ chosenSithLord.hp);
         
         if(chosenJedi.hp < 1) {
-            goGameOver("Lose");       
+            alert("You have been defeated by " + chosenSithLord.name)
+            goGameOver("Lose");
+
         }
 
         if(chosenSithLord.hp < 1) {
             if(sithLordArray.length === 0){
+                alert("You have defeated " + chosenSithLord.name)
                 goGameOver("Win"); 
             }
             else{
                 chooseSithLord(chosenJedi, sithLordArray);
             }
         }
+
+        setTimeout(function(){$("#attack").attr("disabled", false)},4000);
     }
     function goGameOver(outcome){
         createPageLayout();
@@ -163,8 +185,22 @@ $(document).ready(function() {
 
         $(".container").append(row);
     }
+    function createPlayButton(){
+        var playButton = $("<button>");
+        playButton.text("Play");
+        playButton.addClass("btn btn-default btn-lg homeButtons");
+        playButton.attr("id","playButton");
+        playButton.on("click",function(audio){
+            audioElement.pause();
+            chooseJedi();
+        });
+        $("#content").append(playButton);
+    }
 
     goHome();
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', 'https://archive.org/download/StarWarsThemeSongByJohnWilliams/Star%20Wars%20Theme%20Song%20By%20John%20Williams.mp3');
+    audioElement.play();
 
 })
 

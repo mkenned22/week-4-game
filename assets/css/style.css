@@ -36,6 +36,7 @@ img {
     width: 225px;
     height: 225px;
     margin: 20px;
+    color: chartreuse;
 }
 
 #LukeSkyWalker{
@@ -77,7 +78,6 @@ img {
 
 .jediButton:hover{
     border: 4px solid chartreuse;
-
 }
 .sithButton:hover{
     border: 4px solid red;
@@ -85,6 +85,10 @@ img {
 
 #vs{
     font-size: 30px;
+}
+
+.jediButton, .sithButton{
+    padding-top: 175px;
 }
 
 
