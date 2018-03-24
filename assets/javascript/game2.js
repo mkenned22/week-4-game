@@ -6,15 +6,8 @@ $(document).ready(function() {
         $("#content").append("<p><h1>Jedi's vs. Sith Lords</h1></p><br>");
 
         createPlayButton();
-
-        var instructionsButton = $("<button>");
-        instructionsButton.text("Instructions");
-        instructionsButton.addClass("btn btn-default btn-lg homeButtons");
-        instructionsButton.attr("id","instructionsButton");
-        instructionsButton.on("click",function(){
-            goInstructions()
-        });
-        $("#content").append(instructionsButton);
+        createInstructionButton();
+        
     }
     function goInstructions(){
         createPageLayout();
@@ -32,10 +25,10 @@ $(document).ready(function() {
         $("body").css({'background-image':'url(assets/images/jedi_background.jpg)'});
 
         var jedis = {
-            "LukeSkyWalker" : { id:"LukeSkyWalker", name: "Luke Skywalker", hp: "150", ap: "7", iap: "7"},
-            "Yoda" : { id:"Yoda", name: "Yoda", hp: "130", ap: "9", iap: "9"},
-            "ObiWanKenobi" : { id:"ObiWanKenobi", name: "Obi-Wan Kenobi", hp: "110", ap: "10", iap: "10"},
-            "QuiGonJinn" : { id:"QuiGonJinn", name: "Qui-Gon Jinn", hp: "90", ap: "12", iap: "12"}
+            "LukeSkyWalker" : { id:"LukeSkyWalker", name: "Luke Skywalker", hp: "100", ap: "20", iap: "5"},
+            "Yoda" : { id:"Yoda", name: "Yoda", hp: "100", ap: "10", iap: "10"},
+            "ObiWanKenobi" : { id:"ObiWanKenobi", name: "Obi-Wan Kenobi", hp: "100", ap: "15", iap: "7"},
+            "QuiGonJinn" : { id:"QuiGonJinn", name: "Qui-Gon Jinn", hp: "100", ap: "5", iap: "15"}
         }
 
         var jedisArray = ["LukeSkyWalker","Yoda","ObiWanKenobi","QuiGonJinn"]
@@ -46,10 +39,8 @@ $(document).ready(function() {
         
 
         for(i=0;i<jedisArray.length;i++){
-            var button = $("<button>");
-            button.attr("id",jedisArray[i]);
+            var button = createCharacterButton(jedis,jedisArray[i],"jedi");
             button.text(jedis[jedisArray[i]].name);
-            button.addClass("btn btn-default btn-lg jediButton");
             button.on("click",function(){
                 var jedi = this.id;
                 $(".jediButton").attr("disabled",true);
@@ -66,20 +57,18 @@ $(document).ready(function() {
         $("body").css({'background-image':'url(assets/images/sith_background.png)'});
 
         var sithLords = {
-            "EmperorPalpatine" : { id: "EmperorPalpatine", name: "Emperor Palpatine", hp: "150", ap: "70", defeated: false},
-            "DarthVader" : { id: "DarthVader", name: "Darth Vader", hp: "130", ap: "9", defeated: false},
-            "CountDooku" : { id: "CountDooku", name: "Count Dooku", hp: "110", ap: "10", defeated: false},
-            "DarthMaul" : { id: "DarthMaul", name: "Darth Maul", hp: "90", ap: "12", defeated: false}
+            "EmperorPalpatine" : { id: "EmperorPalpatine", name: "Emperor Palpatine", hp: "100", ap: "17", defeated: false},
+            "DarthVader" : { id: "DarthVader", name: "Darth Vader", hp: "100", ap: "15", defeated: false},
+            "CountDooku" : { id: "CountDooku", name: "Count Dooku", hp: "100", ap: "10", defeated: false},
+            "DarthMaul" : { id: "DarthMaul", name: "Darth Maul", hp: "100", ap: "5", defeated: false}
         }
 
         var numArray = ["final","third","second","first"];
         $("#content").html("<div><h1>Select your " + numArray[sithLordArray.length-1] +  " opponent</h1></div>");
 
         for(i=0;i<sithLordArray.length;i++){
-            var button = $("<button>");
-            button.attr("id",sithLordArray[i]);
+            var button = createCharacterButton(sithLords,sithLordArray[i],"sith");
             button.text(sithLords[sithLordArray[i]].name);
-            button.addClass("btn btn-default btn-lg sithButton");
             button.on("click",function(){
                 var sith = this.id;
                 $(".sithButton").attr("disabled",true);
@@ -96,21 +85,14 @@ $(document).ready(function() {
         $("body").css({'background-image':'url(assets/images/battleRoyale.png)'});
         $("#content").html("<div><h1>" +chosenJedi.name + " vs. " + sithLord.name + "</h1></div>");
 
-        var button = $("<button>");
-        button.attr("id",chosenJedi.id);
+        var button = createCharacterButton(chosenJedi,chosenJedi.id,"jedi");
         button.text("Health Points:"+ chosenJedi.hp)
-        button.addClass("btn btn-default btn-lg jediButton");
-        button.css("color","#7FFF00");
-
         $("#content").append(button);
 
         $("#content").append("<span id='vs'>vs.</span>");
 
-        var button = $("<button>");
-        button.attr("id",sithLord.id);
+        var button = createCharacterButton(sithLord,sithLord.id,"sith");
         button.text("Health Points:"+ sithLord.hp)
-        button.addClass("btn btn-default btn-lg sithButton");
-        button.css("color","#7FFF00");
         $("#content").append(button);
 
         var button = $("<button>");
@@ -124,7 +106,6 @@ $(document).ready(function() {
         $("#content").append($("<div>").append(button));
     }
     function attack(chosenJedi, chosenSithLord, sithLordArray){
-        $()
 
         var audioElement = document.createElement('audio');
         audioElement.setAttribute('src','assets/images/saber.mp3');
@@ -139,22 +120,23 @@ $(document).ready(function() {
         $("#" + chosenJedi.id).text("Health Points:"+ chosenJedi.hp);
         $("#" + chosenSithLord.id).text("Health Points:"+ chosenSithLord.hp);
         
-        if(chosenJedi.hp < 1) {
-            alert("You have been defeated by " + chosenSithLord.name)
-            goGameOver("Lose");
-
-        }
-
-        if(chosenSithLord.hp < 1) {
-            if(sithLordArray.length === 0){
-                alert("You have defeated " + chosenSithLord.name)
-                goGameOver("Win"); 
+        setTimeout(function(){
+            if(chosenJedi.hp < 1) {
+                alert("You have been defeated by " + chosenSithLord.name)
+                goGameOver("Lose");
+    
             }
-            else{
-                chooseSithLord(chosenJedi, sithLordArray);
+            else if(chosenSithLord.hp < 1) {
+                if(sithLordArray.length === 0){
+                    alert("You have defeated " + chosenSithLord.name)
+                    goGameOver("Win"); 
+                }
+                else{
+                    chooseSithLord(chosenJedi, sithLordArray);
+                }
             }
-        }
-
+        },4000);
+            
         setTimeout(function(){$("#attack").attr("disabled", false)},4000);
     }
     function goGameOver(outcome){
@@ -163,14 +145,8 @@ $(document).ready(function() {
         $("#content").append("<div><h1>You " +outcome + "!</h1></div>")
         $("#content").append('<div><iframe width="560" height="315" src="https://www.youtube.com/embed/OzK6K0-9RwM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>')
         
-        var playButton = $("<button>");
-        playButton.text("Play Again");
-        playButton.addClass("btn btn-default btn-lg");
-        playButton.attr("id","playButton");
-        playButton.on("click",function(){
-            chooseJedi()
-        });
-        $("#content").append(playButton);
+        createPlayButton();
+        createInstructionButton();
     }
     function createPageLayout(){
         $(".container").text("");
@@ -195,6 +171,25 @@ $(document).ready(function() {
             chooseJedi();
         });
         $("#content").append(playButton);
+    }
+
+    function createInstructionButton(){
+        var instructionsButton = $("<button>");
+        instructionsButton.text("Instructions");
+        instructionsButton.addClass("btn btn-default btn-lg homeButtons");
+        instructionsButton.attr("id","instructionsButton");
+        instructionsButton.on("click",function(){
+            goInstructions()
+        });
+        $("#content").append(instructionsButton);
+    }
+
+    function createCharacterButton(playerData, id, playerType){
+        var button = $("<button>");
+        button.attr("id",id);
+        button.css("color","#7FFF00");
+        button.addClass("btn btn-default btn-lg " + playerType + "Button");
+        return(button);
     }
 
     goHome();
