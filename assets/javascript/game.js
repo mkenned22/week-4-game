@@ -58,8 +58,8 @@ $(document).ready(function() {
         $("body").css({'background-image':'url(assets/images/sith_background.png)'});
 
         var sithLords = {
-            "EmperorPalpatine" : { id: "EmperorPalpatine", name: "Emperor Palpatine", hp: "100", ap: "17", defeated: false},
-            "DarthVader" : { id: "DarthVader", name: "Darth Vader", hp: "100", ap: "15", defeated: false},
+            "EmperorPalpatine" : { id: "EmperorPalpatine", name: "Emperor Palpatine", hp: "100", ap: "15", defeated: false},
+            "DarthVader" : { id: "DarthVader", name: "Darth Vader", hp: "100", ap: "12", defeated: false},
             "CountDooku" : { id: "CountDooku", name: "Count Dooku", hp: "100", ap: "10", defeated: false},
             "DarthMaul" : { id: "DarthMaul", name: "Darth Maul", hp: "100", ap: "5", defeated: false}
         }
